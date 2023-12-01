@@ -1,5 +1,9 @@
 ---
 
+- name: Install AMQ Streams Operator
+  when: lab_setup | bool
+  ansible.builtin.include_tasks: amq_streams_operator.yml
+
 - name: Install OpenShift Gitops
   ansible.builtin.include_tasks: openshift_gitops.yml
 
@@ -14,6 +18,7 @@
 - name: Install Service Registry operator
   when: lab_setup | bool
   ansible.builtin.include_tasks: service_registry_operator.yml
+
 
 - name: Deploy 3scale and tenants
   when: lab_setup | bool
@@ -30,9 +35,3 @@
 - name: Setup APIM module
   when: lab_setup | bool
   ansible.builtin.include_tasks: apim.yml
-
-- name: Set up app services lab - bookbag gitops
-  when:
-    - lab_setup | bool
-    - bookbag | bool
-  ansible.builtin.include_tasks: setup-app-services-lab-bookbag.yml

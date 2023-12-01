@@ -66,6 +66,45 @@ service_registry_catalogsource_name: redhat-operators-snapshot-service-registry
 service_registry_catalog_snapshot_image: quay.io/gpte-devops-automation/olm_snapshot_redhat_catalog
 service_registry_catalog_snapshot_image_tag: "v4.13_2023_06_26"
 
+
+# ------------------------------------------------
+# AMQ Streams Operator
+# ------------------------------------------------
+
+amq_streams_operator_channel: ""
+amq_streams_operator_automatic_install_plan_approval: true
+amq_streams_operator_starting_csv: ""
+amq_streams_operator_name: amq-streams
+amq_streams_operator_namespace: openshift-operators
+amq_streams_operator_catalog: redhat-operators
+amq_streams_operator_csv_prefix: amqstreams
+amq_streams_operator_wait_for_deploy: true
+amq_streams_operator_use_catalog_snapshot: true
+amq_streams_operator_catalogsource_name: redhat-operators-snapshot-amq-streams
+amq_streams_operator_catalog_snapshot_image: quay.io/gpte-devops-automation/olm_snapshot_redhat_catalog
+amq_streams_operator_catalog_snapshot_image_tag: "v4.13_2023_06_26"
+amq_streams_operator_requests_memory: 768Mi
+amq_streams_operator_limits_memory: 768Mi
+
+
+
+# ------------------------------------------------
+# Service Binding Operator
+# ------------------------------------------------
+
+service_binding_operator_name: rh-service-binding-operator
+service_binding_operator_namespace: openshift-operators
+service_binding_operator_catalog: redhat-operators
+service_binding_operator_channel: stable
+service_binding_operator_automatic_install_plan_approval: true
+service_binding_operator_starting_csv: ""
+service_binding_operator_csv_nameprefix: service-binding-operator
+service_binding_operator_use_catalog_snapshot: true
+service_binding_operator_catalogsource_name: redhat-operators-snapshot-service-binding
+service_binding_operator_catalog_snapshot_image: quay.io/gpte-devops-automation/olm_snapshot_redhat_catalog
+service_binding_operator_catalog_snapshot_image_tag: "v4.13_2023_06_26"
+
+
 # ------------------------------------------------
 # App services
 # ------------------------------------------------
@@ -76,7 +115,7 @@ namespace_prefix: globex-
 app_services_application_name: globex-app-user
 app_services_application_namespace: openshift-gitops
 
-app_services_application_repo: https://github.com/rh-mad-app-services/mad-app-services-helm.git
+app_services_application_repo: https://github.com/rh-soln-pattern-api-versioning/globex-helm.git
 app_services_application_repo_tag: main
 app_services_application_repo_path: globex
 
@@ -92,10 +131,10 @@ catalog_service_image: quay.io/globex-recommendation/catalog:app-mod-workshop
 globex_ui_image: quay.io/globex-recommendation/globex-recommendation-ui:app-mod-workshop
 
 # Activity Tracking app
-activity_tracking_service_image: quay.io/globex-recommendation/activity-tracking-service:app-mod-workshop
+activity_tracking_service_image: quay.io/cloud-architecture-workshop/activity-tracking-service:latest
 
 # Recommendation Engine app
-recommendation_engine_image: quay.io/globex-recommendation/recommendation-engine:app-mod-workshop
+recommendation_engine_image: quay.io/cloud-architecture-workshop/recommendation-engine:latest
 
 # Activity Tracking Simulator
 activity_tracking_simulator_image: >-
@@ -110,7 +149,7 @@ order_placement_service_image: quay.io/globex-recommendation/order-placement-ser
 
 threescale_application_namespace: openshift-gitops
 
-threescale_gitops_repo: https://github.com/rh-mad-app-services/mad-app-services-helm.git
+threescale_gitops_repo: https://github.com/rh-soln-pattern-api-versioning/globex-helm.git
 threescale_gitops_repo_tag: main
 threescale_gitops_repo_path: threescale
 
@@ -119,7 +158,7 @@ threescale_namespace: 3scale
 threescale_apimanager_application_name: threescale
 
 threescale_minio_stateful: true
-threescale_minio_storageclass: gp3-csi
+threescale_minio_storageclass: ocs-external-storagecluster-ceph-rbd
 threescale_minio_default_region: us-east-1
 threescale_minio_access_key_id: minio
 threescale_minio_secret_access_key: minio123
@@ -136,7 +175,7 @@ threescale_tenant_admin_password: "openshift"
 apicurio_application_namespace: openshift-gitops
 apicurio_application_name: apicurio
 apicurio_namespace: "{{ apicurio_operator_operator_namespace }}"
-apicurio_gitops_repo: https://github.com/rh-mad-app-services/mad-app-services-helm.git
+apicurio_gitops_repo: https://github.com/rh-soln-pattern-api-versioning/globex-helm.git
 apicurio_gitops_repo_tag: main
 apicurio_gitops_repo_path: apicurio-designer
 
@@ -152,7 +191,7 @@ apim_namespace_prefix: globex-apim-
 
 apim_application_namespace: openshift-gitops
 apim_application_name: apim-user
-apim_gitops_repo: https://github.com/rh-mad-app-services/mad-app-services-helm.git
+apim_gitops_repo: https://github.com/rh-soln-pattern-api-versioning/globex-helm.git
 apim_gitops_repo_tag: main
 apim_gitops_repo_path: apim
 
