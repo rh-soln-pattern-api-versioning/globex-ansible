@@ -128,7 +128,7 @@ catalog_db_image: quay.io/globex-recommendation/catalog-database:app-mod-worksho
 catalog_service_image: quay.io/globex-recommendation/catalog:app-mod-workshop
 
 # Globex UI app
-globex_ui_image: quay.io/globex-recommendation/globex-recommendation-ui:app-mod-workshop
+globex_ui_image: quay.io/rh_soln_pattern_api_versioning/globex-ui:latest
 
 # Activity Tracking app
 activity_tracking_service_image: quay.io/cloud-architecture-workshop/activity-tracking-service:latest
@@ -141,7 +141,10 @@ activity_tracking_simulator_image: >-
   quay.io/globex-recommendation/activity-tracking-simulator:app-mod-workshop
 
 # Order Placement app
-order_placement_service_image: quay.io/globex-recommendation/order-placement-service:app-mod-workshop
+order_placement_service_image: quay.io/rh_soln_pattern_api_versioning/order-placement:latest
+order_placement_groupId: globex
+order_placement_artifactId: ProductCatalogJsonSchemaAPI
+order_placement_version: "1"
 
 # ------------------------------------------------
 # Threescale

@@ -58,11 +58,19 @@ spec:
             image: {{ inventory_db_image }}
         order-placement:
           image: {{ order_placement_service_image }}
+          serviceRegistry:
+            url:
+              api: service-registry-{{ __user }}.{{ r_openshift_subdomain }}/apis/registry/v2
+            jsonSchema:
+              groupId: {{ order_placement_groupId }}
+              artifactId: {{ order_placement_artifactId }}
+              version: "{{ order_placement_version }}"
+          kafka:
+            <<: *kafka
+            namespace: *namespace
         recommendation-engine:
           image: {{ recommendation_engine_image }}
-          kafka:
-            streams:
-              replicationFactor: {{ kafka_replicas }}
+          kafka: *kafka
         kafdrop:
           kafka:
             <<: *kafka
