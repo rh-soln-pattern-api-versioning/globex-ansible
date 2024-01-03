@@ -32,6 +32,8 @@ spec:
           saslMechanism: {{ kafka_sasl_mechanism }}
           clientId: {{ kafka_client_id }}
           clientSecret: {{ kafka_client_secret }}
+        kafka-topics:
+          namespace: *namespace
         kafka-broker:
           namespace: *namespace
           kafka:
@@ -60,7 +62,7 @@ spec:
           image: {{ order_placement_service_image }}
           serviceRegistry:
             url:
-              api: service-registry-{{ __user }}.{{ r_openshift_subdomain }}/apis/registry/v2
+              api: https://service-registry-{{ __user }}.{{ r_openshift_subdomain }}/apis/registry/v2
             jsonSchema:
               groupId: {{ order_placement_groupId }}
               artifactId: {{ order_placement_artifactId }}
