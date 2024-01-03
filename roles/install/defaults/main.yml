@@ -143,7 +143,7 @@ activity_tracking_simulator_image: >-
 # Order Placement app
 order_placement_service_image: quay.io/rh_soln_pattern_api_versioning/order-placement:latest
 order_placement_groupId: globex
-order_placement_artifactId: ProductCatalogJsonSchemaAPI
+order_placement_artifactId: OrderPlacementJsonSchemaAPI
 order_placement_version: "1"
 
 # ------------------------------------------------
