@@ -18,16 +18,17 @@ user_prefix: user
 
 threescale_operator_name: 3scale-operator
 threescale_operator_namespace: openshift-operators
-threescale_operator_channel: "threescale-2.13"
+threescale_operator_channel: "threescale-2.14"
 threescale_operator_automatic_install_plan_approval: true
 threescale_operator_starting_csv: ""
 threescale_operator_catalog: redhat-operators
 threescale_operator_csv_prefix: 3scale-operator
 threescale_operator_wait_for_deploy: true
-threescale_operator_use_catalog_snapshot: true
-threescale_operator_catalogsource_name: redhat-operators-snapshot-threescale
-threescale_operator_catalog_snapshot_image: quay.io/gpte-devops-automation/olm_snapshot_redhat_catalog
-threescale_operator_catalog_snapshot_image_tag: "v4.13_2023_06_26"
+threescale_operator_use_catalog_snapshot: false
+threescale_operator_catalogsource_name: ""
+threescale_operator_catalogsource_namespace: openshift-operators
+threescale_operator_catalog_snapshot_image: ""
+threescale_operator_catalog_snapshot_image_tag: ""
 threescale_operator_requests_memory: 1024Mi
 threescale_operator_limits_memory: 1024Mi
 
