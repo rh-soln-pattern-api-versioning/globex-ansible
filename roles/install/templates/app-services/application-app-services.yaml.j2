@@ -59,7 +59,6 @@ spec:
           inventoryDb:
             image: {{ inventory_db_image }}
         order-placement:
-          image: {{ order_placement_service_image }}
           serviceRegistry:
             url:
               api: https://service-registry-{{ __user }}.{{ r_openshift_subdomain }}/apis/registry/v2
