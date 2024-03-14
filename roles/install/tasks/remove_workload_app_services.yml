@@ -14,7 +14,7 @@
     definition: "{{ lookup('template', 'app-services/application-app-services.yaml.j2') }}"
   vars:
     _app_namespace: "{{ namespace_prefix }}user"
-    _kafka_namespace: "{{ namespace_prefix }}user"
+
 
 - name: Remove rolebindings
   kubernetes.core.k8s:

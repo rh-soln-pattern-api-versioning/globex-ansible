@@ -23,29 +23,6 @@ spec:
     path: {{ app_services_application_repo_path }}
     helm:
       values: |
-        kafka:
-          enabled: {{ kafka_enabled }}
-          namespace: &namespace {{ _kafka_namespace | replace("user",__user) }}
-        kafka-cluster: &kafka
-          bootstrapServer: kafka-kafka-bootstrap.{{ _kafka_namespace | replace("user",__user) }}.svc.cluster.local:9092
-          securityProtocol: {{ kafka_security_protocol }}
-          saslMechanism: {{ kafka_sasl_mechanism }}
-          clientId: {{ kafka_client_id }}
-          clientSecret: {{ kafka_client_secret }}
-        kafka-topics:
-          namespace: *namespace
-        kafka-broker:
-          namespace: *namespace
-          kafka:
-            cluster:
-              replicas: {{ kafka_replicas }}        
-        activity-tracking:
-          image: {{ activity_tracking_service_image }}
-          kafka:
-            <<: *kafka
-            namespace: *namespace
-        activity-tracking-simulator:
-          image: {{ activity_tracking_simulator_image }}
         catalog-app:
           catalogDb:
             image: {{ catalog_db_image }}
@@ -66,15 +43,5 @@ spec:
               groupId: {{ order_placement_groupId }}
               artifactId: {{ order_placement_artifactId }}
               version: "{{ order_placement_version }}"
-          kafka:
-            <<: *kafka
-            namespace: *namespace
-        recommendation-engine:
-          image: {{ recommendation_engine_image }}
-          kafka: *kafka
-        kafdrop:
-          kafka:
-            <<: *kafka
-            namespace: *namespace
 
 {% endfor %}

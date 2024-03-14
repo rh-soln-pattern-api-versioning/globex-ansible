@@ -31,7 +31,3 @@
 - name: Setup APIM module
   when: lab_setup | bool
   ansible.builtin.include_tasks: apim.yml
-
-- name: Setup APIM module
-  when: lab_setup | bool
-  ansible.builtin.include_tasks: 3scale-crds.yml

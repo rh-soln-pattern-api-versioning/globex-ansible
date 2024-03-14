@@ -93,7 +93,7 @@ catalog_db_image: quay.io/globex-recommendation/catalog-database:app-mod-worksho
 catalog_service_image: quay.io/globex-recommendation/catalog:app-mod-workshop
 
 # Globex UI app
-globex_ui_image: quay.io/rh_soln_pattern_api_versioning/globex-ui:latest
+globex_ui_image: quay.io/rh_soln_pattern_api_versioning/globex-ui:1.0.0
 
 # Order Placement app
 order_placement_service_image: quay.io/rh_soln_pattern_api_versioning/order-placement:latest
@@ -152,16 +152,6 @@ apim_application_name: apim-user
 apim_gitops_repo: https://github.com/rh-soln-pattern-api-versioning/api-versioning-helm.git
 apim_gitops_repo_tag: apim-gitops
 apim_gitops_repo_path: apim
-
-
-threescalecrds_namespace_prefix: globex-apim-
-
-threescalecrds_application_namespace: openshift-gitops
-threescalecrds_application_name: apim-user
-threescalecrds_gitops_repo: https://github.com/rh-soln-pattern-api-versioning/3scale-crds-helm.git
-threescalecrds_gitops_repo_tag: main
-threescalecrds_gitops_repo_path: apim
-
 
 # ------------------------------------------------
 # OpenShift Gitops
