@@ -68,42 +68,6 @@ service_registry_catalog_snapshot_image: quay.io/gpte-devops-automation/olm_snap
 service_registry_catalog_snapshot_image_tag: "v4.13_2023_06_26"
 
 
-# ------------------------------------------------
-# AMQ Streams Operator
-# ------------------------------------------------
-
-amq_streams_operator_channel: ""
-amq_streams_operator_automatic_install_plan_approval: true
-amq_streams_operator_starting_csv: ""
-amq_streams_operator_name: amq-streams
-amq_streams_operator_namespace: openshift-operators
-amq_streams_operator_catalog: redhat-operators
-amq_streams_operator_csv_prefix: amqstreams
-amq_streams_operator_wait_for_deploy: true
-amq_streams_operator_use_catalog_snapshot: true
-amq_streams_operator_catalogsource_name: redhat-operators-snapshot-amq-streams
-amq_streams_operator_catalog_snapshot_image: quay.io/gpte-devops-automation/olm_snapshot_redhat_catalog
-amq_streams_operator_catalog_snapshot_image_tag: "v4.13_2023_06_26"
-amq_streams_operator_requests_memory: 768Mi
-amq_streams_operator_limits_memory: 768Mi
-
-
-
-# ------------------------------------------------
-# Service Binding Operator
-# ------------------------------------------------
-
-service_binding_operator_name: rh-service-binding-operator
-service_binding_operator_namespace: openshift-operators
-service_binding_operator_catalog: redhat-operators
-service_binding_operator_channel: stable
-service_binding_operator_automatic_install_plan_approval: true
-service_binding_operator_starting_csv: ""
-service_binding_operator_csv_nameprefix: service-binding-operator
-service_binding_operator_use_catalog_snapshot: true
-service_binding_operator_catalogsource_name: redhat-operators-snapshot-service-binding
-service_binding_operator_catalog_snapshot_image: quay.io/gpte-devops-automation/olm_snapshot_redhat_catalog
-service_binding_operator_catalog_snapshot_image_tag: "v4.13_2023_06_26"
 
 
 # ------------------------------------------------
@@ -117,7 +81,7 @@ app_services_application_name: globex-app-user
 app_services_application_namespace: openshift-gitops
 
 app_services_application_repo: https://github.com/rh-soln-pattern-api-versioning/api-versioning-helm.git
-app_services_application_repo_tag: main
+app_services_application_repo_tag: apim-gitops
 app_services_application_repo_path: globex
 
 # Inventory app
@@ -130,16 +94,6 @@ catalog_service_image: quay.io/globex-recommendation/catalog:app-mod-workshop
 
 # Globex UI app
 globex_ui_image: quay.io/rh_soln_pattern_api_versioning/globex-ui:latest
-
-# Activity Tracking app
-activity_tracking_service_image: quay.io/cloud-architecture-workshop/activity-tracking-service:latest
-
-# Recommendation Engine app
-recommendation_engine_image: quay.io/cloud-architecture-workshop/recommendation-engine:latest
-
-# Activity Tracking Simulator
-activity_tracking_simulator_image: >-
-  quay.io/globex-recommendation/activity-tracking-simulator:app-mod-workshop
 
 # Order Placement app
 order_placement_service_image: quay.io/rh_soln_pattern_api_versioning/order-placement:latest
@@ -154,7 +108,7 @@ order_placement_version: "1"
 threescale_application_namespace: openshift-gitops
 
 threescale_gitops_repo: https://github.com/rh-soln-pattern-api-versioning/api-versioning-helm.git
-threescale_gitops_repo_tag: main
+threescale_gitops_repo_tag: apim-gitops
 threescale_gitops_repo_path: threescale
 
 threescale_namespace: 3scale
@@ -180,7 +134,7 @@ apicurio_application_namespace: openshift-gitops
 apicurio_application_name: apicurio
 apicurio_namespace: "{{ apicurio_operator_operator_namespace }}"
 apicurio_gitops_repo: https://github.com/rh-soln-pattern-api-versioning/api-versioning-helm.git
-apicurio_gitops_repo_tag: main
+apicurio_gitops_repo_tag: apim-gitops
 apicurio_gitops_repo_path: apicurio-designer
 
 apicurio_replicas: 1
@@ -196,20 +150,17 @@ apim_namespace_prefix: globex-apim-
 apim_application_namespace: openshift-gitops
 apim_application_name: apim-user
 apim_gitops_repo: https://github.com/rh-soln-pattern-api-versioning/api-versioning-helm.git
-apim_gitops_repo_tag: main
+apim_gitops_repo_tag: apim-gitops
 apim_gitops_repo_path: apim
 
-# ------------------------------------------------
-# Kafka
-# ------------------------------------------------
-kafka_enabled: true
 
-kafka_replicas: 2
+threescalecrds_namespace_prefix: globex-apim-
 
-kafka_security_protocol: SASL_PLAINTEXT
-kafka_sasl_mechanism: SCRAM-SHA-512
-kafka_client_id: globex
-kafka_client_secret: globex
+threescalecrds_application_namespace: openshift-gitops
+threescalecrds_application_name: apim-user
+threescalecrds_gitops_repo: https://github.com/rh-soln-pattern-api-versioning/3scale-crds-helm.git
+threescalecrds_gitops_repo_tag: main
+threescalecrds_gitops_repo_path: apim
 
 
 # ------------------------------------------------
