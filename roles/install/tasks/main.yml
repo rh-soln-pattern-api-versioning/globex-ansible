@@ -13,6 +13,17 @@
     file: ./workload.yml
     apply:
       become: "{{ become_override | bool }}"
+  tags:
+    - main
+  when: ACTION == "create" or ACTION == "provision"
+
+- name: Running APIM Workload Tasks
+  include_tasks:
+    file: ./apim.yml
+    apply:
+      become: "{{ become_override | bool }}"
+  tags:
+    - apim
   when: ACTION == "create" or ACTION == "provision"
 
 - name: Running Post Workload Tasks

@@ -149,10 +149,11 @@ apim_namespace_prefix: globex-apim-
 
 apim_application_namespace: openshift-gitops
 apim_application_name: apim-user
-apim_gitops_repo: https://github.com/rh-soln-pattern-api-versioning/api-versioning-helm.git
-apim_gitops_repo_tag: apim-gitops
+apim_gitops_repo: "{{ apim_gitops_repo_value }}"
+apim_gitops_repo_tag:   "{{ apim_gitops_repo_tag_value }}"
 apim_gitops_repo_path: apim
 
+apim_order_placement_product : globex-order-placement-product
 # ------------------------------------------------
 # OpenShift Gitops
 # ------------------------------------------------
