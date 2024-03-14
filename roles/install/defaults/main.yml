@@ -81,7 +81,7 @@ app_services_application_name: globex-app-user
 app_services_application_namespace: openshift-gitops
 
 app_services_application_repo: https://github.com/rh-soln-pattern-api-versioning/api-versioning-helm.git
-app_services_application_repo_tag: apim-gitops
+app_services_application_repo_tag: main
 app_services_application_repo_path: globex
 
 # Inventory app
@@ -108,7 +108,7 @@ order_placement_version: "1"
 threescale_application_namespace: openshift-gitops
 
 threescale_gitops_repo: https://github.com/rh-soln-pattern-api-versioning/api-versioning-helm.git
-threescale_gitops_repo_tag: apim-gitops
+threescale_gitops_repo_tag: main
 threescale_gitops_repo_path: threescale
 
 threescale_namespace: 3scale
@@ -134,7 +134,7 @@ apicurio_application_namespace: openshift-gitops
 apicurio_application_name: apicurio
 apicurio_namespace: "{{ apicurio_operator_operator_namespace }}"
 apicurio_gitops_repo: https://github.com/rh-soln-pattern-api-versioning/api-versioning-helm.git
-apicurio_gitops_repo_tag: apim-gitops
+apicurio_gitops_repo_tag: main
 apicurio_gitops_repo_path: apicurio-designer
 
 apicurio_replicas: 1
@@ -154,6 +154,25 @@ apim_gitops_repo_tag:   "{{ apim_gitops_repo_tag_value }}"
 apim_gitops_repo_path: apim
 
 apim_order_placement_product : globex-order-placement-product
+
+# ------------------------------------------------
+# OpenShift Pipelines Operator
+# ------------------------------------------------
+
+openshift_pipelines_operator_channel: ""
+openshift_pipelines_operator_automatic_install_plan_approval: true
+openshift_pipelines_operator_starting_csv: ""
+openshift_pipelines_operator_name: openshift-pipelines-operator-rh
+openshift_pipelines_operator_namespace: openshift-operators
+openshift_pipelines_operator_catalog: redhat-operators
+openshift_pipelines_operator_csv_prefix: openshift-pipelines-operator-rh
+openshift_pipelines_operator_wait_for_deploy: true
+openshift_pipelines_operator_use_catalog_snapshot: false
+openshift_pipelines_operator_catalogsource_name: ""
+openshift_pipelines_operator_catalogsource_namespace: openshift-operators
+openshift_pipelines_operator_catalog_snapshot_image: ""
+openshift_pipelines_operator_catalog_snapshot_image_tag: ""
+
 # ------------------------------------------------
 # OpenShift Gitops
 # ------------------------------------------------

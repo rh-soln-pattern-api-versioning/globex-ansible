@@ -48,3 +48,12 @@ spec:
             masterDomain: {{ threescale_master_domain }}
           hook:
             host: {{ threescale_master_domain }}.{{ r_openshift_subdomain }}
+        cms-upload:
+          hook:
+            pre:
+              hostPattern: {{ threescale_tenant_org_name_base }}-{{ user_prefix }}{n}-admin.{{ r_openshift_subdomain }}
+          loop:
+            count: {{ user_count }}
+          cms:
+            image: ghcr.io/fwmotion/3scale-cms:v2.0.1
+

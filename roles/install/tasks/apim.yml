@@ -36,116 +36,118 @@
     _service_registry_namespace:
       "{{ apim_namespace_prefix }}user"
 
-- name: Retrieve 3scale Admin URL and token for tenant from secret
-  kubernetes.core.k8s_info:
-    api_version: v1
-    kind: Secret
-    name: 3scale-tenant-secret
-    namespace: "{{ apim_namespace_prefix }}user1"
-  register: _3scale_tenant_secret
-  retries: 3
-  delay: 5
-  until:
-    - _3scale_tenant_secret.resources is defined
-    - _3scale_tenant_secret.resources | length | int > 0
-    - _3scale_tenant_secret.resources[0].data is defined
-    - _3scale_tenant_secret.resources[0].data.token is defined
-    - _3scale_tenant_secret.resources[0].data.adminURL is defined
+# - name: Retrieve 3scale Admin URL and token for tenant from secret
+#   kubernetes.core.k8s_info:
+#     api_version: v1
+#     kind: Secret
+#     name: 3scale-tenant-secret
+#     namespace: "{{ apim_namespace_prefix }}user1"
+#   register: _3scale_tenant_secret
+#   retries: 3
+#   delay: 5
+#   until:
+#     - _3scale_tenant_secret.resources is defined
+#     - _3scale_tenant_secret.resources | length | int > 0
+#     - _3scale_tenant_secret.resources[0].data is defined
+#     - _3scale_tenant_secret.resources[0].data.token is defined
+#     - _3scale_tenant_secret.resources[0].data.adminURL is defined
 
-- name: Setting 3scale tenant parameters - token and admin url
-  ansible.builtin.set_fact:
-    _tenant_token: "{{ _3scale_tenant_secret.resources[0].data.token | b64decode }}"
-    _tenant_admin_url: "{{ _3scale_tenant_secret.resources[0].data.adminURL | b64decode }}"
+# - name: Setting 3scale tenant parameters - token and admin url
+#   ansible.builtin.set_fact:
+#     _tenant_token: "{{ _3scale_tenant_secret.resources[0].data.token | b64decode }}"
+#     _tenant_admin_url: "{{ _3scale_tenant_secret.resources[0].data.adminURL | b64decode }}"
 
-- name: Get the Globex account id
-  ansible.builtin.uri:
-    method: GET
-    url: "{{ _tenant_admin_url }}/admin/api/accounts.json?access_token={{ _tenant_token }}"
-    return_content: true
-    status_code: 200
-  register: _tenant_account_list
-  until: _tenant_account_list is defined
+# - name: Get the Globex account id
+#   ansible.builtin.uri:
+#     method: GET
+#     url: "{{ _tenant_admin_url }}/admin/api/accounts.json?access_token={{ _tenant_token }}"
+#     return_content: true
+#     status_code: 200
+#   register: _tenant_account_list
+#   until: _tenant_account_list is defined
 
-- name: Get Globex Account ID
-  ansible.builtin.set_fact:
-    _account_id: "{{ _tenant_account_list | to_json | from_json | json_query(query) | first }}"
-  vars:
-    query: "json.accounts[?contains(account.org_name,'Globex')].account.id"
+# - name: Get Globex Account ID
+#   ansible.builtin.set_fact:
+#     _account_id: "{{ _tenant_account_list | to_json | from_json | json_query(query) | first }}"
+#   vars:
+#     query: "json.accounts[?contains(account.org_name,'Globex')].account.id"
 
-- name: Get applications for Globex Account ID
-  ansible.builtin.uri:
-    method: GET
-    url: "{{ _tenant_admin_url }}/admin/api/accounts/{{ _account_id }}/applications.json?access_token={{ _tenant_token }}"
-    return_content: true
-    status_code: 200
-  register: _application_list
-  until: _application_list is defined
-
-- name: Get Application Id of basic application
-  ansible.builtin.set_fact:
-    _application_application_id: "{{ _application_list | to_json | from_json | json_query(query) | first }}"
-  vars:
-    query: "json.applications[?contains(application.name,'Basic')].application.application_id"
-
-- name: Get Id of basic application
-  ansible.builtin.set_fact:
-    _application_id: "{{ _application_list | to_json | from_json | json_query(query) | first }}"
-  vars:
-    query: "json.applications[?contains(application.name,'Basic')].application.id" 
-
-- name: Patch mobile web depoyment env with application id
-  ansible.builtin.command:
-    argv:
-      - oc
-      - set
-      - env
-      - deployments/globex-mobile
-      - -n
-      - "{{ apim_namespace_prefix }}user1"
-      - --overwrite
-      - "API_CLIENT_ID={{ _application_application_id }}"
+# - name: Get applications for Globex Account ID
+#   ansible.builtin.uri:
+#     method: GET
+#     url: "{{ _tenant_admin_url }}/admin/api/accounts/{{ _account_id }}/applications.json?access_token={{ _tenant_token }}"
+#     return_content: true
+#     status_code: 200
+#   register: _application_list
+#   until: _application_list is defined
 
 
-- name: Get Product Id for globex-mobile-gateway-product
-  kubernetes.core.k8s_info:
-    api_version: capabilities.3scale.net/v1beta1
-    kind: Product
-    name: "{{ apim_order_placement_product }}"
-    namespace: "{{ apim_namespace_prefix }}-user1"
-  register: globex_product
-  retries: 10
-  delay: 10
-  until:
-    - globex_product is defined
-    - globex_product.resources | length | int > 0
-    - globex_product.resources[0].status is defined
-    - globex_product.resources[0].status.productId is defined
+# - name: Get Application Id of globex-basic-app application
+#   ansible.builtin.set_fact:
+#     _application_application_id: "{{ _application_list | to_json | from_json | json_query(query) | first }}"
+#   vars:
+#     query: "json.applications[?contains(application.name,'globex-basic-plan')].application.application_id"
 
-- name: Set product id
-  ansible.builtin.set_fact:
-    _globex_product_id: "{{ globex_product.resources[0].status.productId }}"
+# - name: Get Id of globex-basic-app application
+#   ansible.builtin.set_fact:
+#     _application_id: "{{ _application_list | to_json | from_json | json_query(query) | first }}"
+#   vars:
+#     query: "json.applications[?contains(application.name,'globex-basic-app')].application.id"
 
-- name: Promote globex-mobile-gateway-product to staging
-  ansible.builtin.uri:
-    method: POST
-    url: "{{ _tenant_admin_url }}/admin/api/services/{{ _globex_product_id }}/proxy/deploy.json?access_token={{ _tenant_token }}"
-    return_content: true
-    status_code: 201
-    body_format: form-urlencoded
-    body:
-      - [access_token, "{{ _tenant_token }}"]
 
-- name: Get the latest proxy config
-  ansible.builtin.uri:
-    method: GET
-    url: "{{ _tenant_admin_url }}/admin/api/services/{{ _globex_product_id }}/proxy/configs/sandbox/latest.json?access_token={{ _tenant_token }}"
-    return_content: true
-    status_code: 200
-  register: r_proxy_config
+# - name: Patch mobile web depoyment env with application id
+#   ansible.builtin.command:
+#     argv:
+#       - oc
+#       - set
+#       - env
+#       - deployments/globex-mobile
+#       - -n
+#       - "{{ apim_namespace_prefix }}user1"
+#       - --overwrite
+#       - "API_CLIENT_ID={{ _application_application_id }}"
 
-- name: Set latest proxy config
-  ansible.builtin.set_fact:
-    _globex_product_proxy_config: "{{ r_proxy_config.json.proxy_config.version }}"
+
+# - name: Get Product Id for globex-mobile-gateway-product
+#   kubernetes.core.k8s_info:
+#     api_version: capabilities.3scale.net/v1beta1
+#     kind: Product
+#     name: "{{ apim_order_placement_product }}"
+#     namespace: "{{ apim_namespace_prefix }}-user1"
+#   register: globex_product
+#   retries: 10
+#   delay: 10
+#   until:
+#     - globex_product is defined
+#     - globex_product.resources | length | int > 0
+#     - globex_product.resources[0].status is defined
+#     - globex_product.resources[0].status.productId is defined
+
+# - name: Set product id
+#   ansible.builtin.set_fact:
+#     _globex_product_id: "{{ globex_product.resources[0].status.productId }}"
+
+# - name: Promote globex-mobile-gateway-product to staging
+#   ansible.builtin.uri:
+#     method: POST
+#     url: "{{ _tenant_admin_url }}/admin/api/services/{{ _globex_product_id }}/proxy/deploy.json?access_token={{ _tenant_token }}"
+#     return_content: true
+#     status_code: 201
+#     body_format: form-urlencoded
+#     body:
+#       - [access_token, "{{ _tenant_token }}"]
+
+# - name: Get the latest proxy config
+#   ansible.builtin.uri:
+#     method: GET
+#     url: "{{ _tenant_admin_url }}/admin/api/services/{{ _globex_product_id }}/proxy/configs/sandbox/latest.json?access_token={{ _tenant_token }}"
+#     return_content: true
+#     status_code: 200
+#   register: r_proxy_config
+
+# - name: Set latest proxy config
+#   ansible.builtin.set_fact:
+#     _globex_product_proxy_config: "{{ r_proxy_config.json.proxy_config.version }}"
 
 # - name: Promote globex-mobile-gateway-product to production
 #   ansible.builtin.uri:

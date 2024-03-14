@@ -1,5 +1,8 @@
 ---
 
+- name: Install OpenShift Pipelines operator
+  ansible.builtin.include_tasks: openshift_pipelines_operator.yml
+
 - name: Install OpenShift Gitops
   ansible.builtin.include_tasks: openshift_gitops.yml
 
